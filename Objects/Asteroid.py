@@ -21,6 +21,9 @@ class Asteroid(RoomObject):
         angle = random.randint(135,225)
         self.set_direction(angle, 10)
 
+        # register events
+        self.register_collision_object("Ship")
+
     def step(self):
         """
         Determines what happens to the asteroid at each tick of the game clock
@@ -46,3 +49,11 @@ class Asteroid(RoomObject):
         if self.x + self.width < 0:
             self.room.delete_object(self)
             #print("Object Deleted")
+
+    def handle_collision(self, other, other_type):
+        """
+        Handles the collision events for the asteroid
+        """
+
+        if other_type == "Ship":
+            self.room.running = False
